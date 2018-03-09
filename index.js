@@ -1,10 +1,8 @@
 const Koa = require('koa');
-const Router = require('koa-router');
+const Router = require('./routes/index');
 const Session = require('koa-session');
-const Check = require('./middlewares/check');
 
 const app = new Koa();
-const router = new Router();
 app.keys = ['some secret hurr'];
 
 const CONFIG = {
@@ -21,30 +19,7 @@ const CONFIG = {
 };
 
 app.use(Session(CONFIG, app));
-router.get('/', Check.checkLogin, async (ctx) => {
-    ctx.body = '首页';
-});
-router.get('/signup', async (ctx) => {
-    console.log(ctx._matchedRoute)
-    ctx.body = '注册页';
-});
-router.get('/signin', async (ctx) => {
-    ctx.body = '登录页';
-});
-// 命名路由
-router.get('aaa', '/users/:id', (ctx, next) => {
-    console.log(ctx.params.id)
-    ctx.body = 'url3';
-});
-
-router.url('aaa', 3);
 
 // 嵌套路由
-const Post = new Router();
-Post.get('/:id', async ctx => {
-    ctx.body = '111111';
-})
 
-router.use('/aaa/:id', Post.routes());
-
-app.use(router.routes()).use(router.allowedMethods()).listen(3000);
+app.use(Router.routes()).listen(3000);

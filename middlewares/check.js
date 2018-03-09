@@ -1,12 +1,21 @@
 module.exports = {
     // 先做登录检查
-    async checkLogin  (ctx, next) {
+    async checkNotLogin  (ctx, next) {
         console.log(ctx.session)
         if (!ctx.session.user) {
-            ctx.session.user = 'yeye';
-            ctx.body = '没有登录';
-            return;
+            // 这里应该跳转到登录页
+            // ctx.body = '没有登录';
+            return ctx.redirect('/signin');
         }
-        next()
+        next();
+    },
+    async checkLogin  (ctx, next) {
+        console.log(ctx.session)
+        if (ctx.session.user) {
+            // 已登录，跳转到上一页
+            ctx.body = '有登录';
+            return ctx.redirect('/posts/manager');
+        }
+        next();
     }
 }
