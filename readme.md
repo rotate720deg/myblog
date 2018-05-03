@@ -22,6 +22,8 @@
 5. 广告管理：`get /advertisement` 增 `get /advertisement/create  post /advertisement/create` 删` get /advertisement/move`  改 `get  /advertisement/:advertisementId/edit  post /advertisement/:advertisementId/edit`
 6. 管理员：`get /managers`  增 `get /managers/create  post /managers/create` 删` get /managers/move`  改 `get  /managers/:managersId/edit  post /managers/:managersId/edit`
 7. 前端首页： `get /   /index`
-8. 文章页：`get /posts/:postsId`
+8. 文章页：`get /posts/:postsId` `get /posts/index`
 9. 文章分类页：`get /posts/:classification`
 
+### 权限控制
+应该有一个检查权限控制的中间件，为每一个需要权限控制的路由添加该检查

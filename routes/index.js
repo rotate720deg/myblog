@@ -5,7 +5,9 @@ const singout = require('./signout');
 const posts = require('./posts');
 const advertisement = require('./advertisement');
 const manager = require('./manager');
-
+router.get('/', ctx => {
+    ctx.body = '跳转到主页去';
+})
 router.use(singin.routes())
     .use(singin.routes())
     .use(singup.routes())

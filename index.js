@@ -1,10 +1,25 @@
 const Koa = require('koa');
+const path = require('path');
 const Router = require('./routes/index');
 const Session = require('koa-session');
+const Render = require('koa-art-template');
+const Static = require('koa-static');
 
 const app = new Koa();
 app.keys = ['some secret hurr'];
 
+// 静态资源
+app.use(Static(
+    path.join(__dirname, 'public')
+));
+// 模板引擎
+Render(app, {
+    root: path.join(__dirname, 'views'),
+    extname: '.art',
+    debug: process.env.NODE_ENV !== 'production'
+});
+
+// session
 const CONFIG = {
     key: 'koa:sess', /** (string) cookie key (default is koa:sess) */
     /** (number || 'session') maxAge in ms (default is 1 days) */
@@ -19,7 +34,5 @@ const CONFIG = {
 };
 
 app.use(Session(CONFIG, app));
-
-// 嵌套路由
 
 app.use(Router.routes()).listen(3000);
